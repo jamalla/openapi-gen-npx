@@ -28,6 +28,9 @@ jobs:
     - name: Generate SDK
       run: npx @openapitools/openapi-generator-cli generate -i openapi.json -g ${{ matrix.language }} -o ./sdks/${{ matrix.language }} -c ./configs/config-${{ matrix.language }}.json -t ./templates/templates-${{ matrix.language }} --engine mustache --skip-validate-spec --openapi-normalizer SET_TAGS_FOR_ALL_OPERATIONS=Salla
 
+    - name: List Generated SDK Files
+      run: ls -l /sdks/${{ matrix.language }}
+
     - name: Commit and Push Generated SDK
       run: |
         mkdir -p $GITHUB_WORKSPACE/sdks/${{ matrix.language }}
