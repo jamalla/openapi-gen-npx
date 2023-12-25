@@ -1,0 +1,39 @@
+name: Generate SDKs in PHP and TS using NPX
+
+on: 
+  workflow_dispatch:
+  push:
+    branches:
+      - develop
+
+jobs:
+  generate-sdk:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        language: ['php', 'typescript']
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+
+    - name: Set OpenAPI Generator CLI Version
+      run: npx @openapitools/openapi-generator-cli version-manager set 7.0.1
+
+    - name: Generate SDK
+      run: npx @openapitools/openapi-generator-cli generate -i openapi.json -g ${{ matrix.language }} -o ./sdks/${{ matrix.language }} -c ./configs/config-${{ matrix.language }}.json -t ./templates/templates-${{ matrix.language }} --engine mustache --skip-validate-spec --openapi-normalizer SET_TAGS_FOR_ALL_OPERATIONS=Salla
+
+    - name: Commit and Push Generated SDK
+      run: |
+        mkdir -p $GITHUB_WORKSPACE/sdks/${{ matrix.language }}
+        cp -r /sdks/${{ matrix.language }}/* $GITHUB_WORKSPACE/sdks/${{ matrix.language }}
+        git config --global user.name 'GitHub Actions'
+        git config --global user.email 'actions@github.com'
+        git add $GITHUB_WORKSPACE/sdks/${{ matrix.language }}
+        git commit -m "Add generated SDK for ${{ matrix.language }}"
+        git push

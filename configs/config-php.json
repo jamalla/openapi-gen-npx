@@ -1,0 +1,17 @@
+{
+  "developerOrganization": "Salla",
+  "developerOrganizationUrl": "https://salla.sa",
+  "packageName": "SallaSDK",
+  "srcBasePath": "sdk_src",
+  "gitUserId": "SallaApp",
+  "gitRepoId": "salla-sdk",
+  "packagePath": "SallaSDK",
+  "invokerPackage": "SallaSDK",
+  "artifactVersion": "1.0.0",
+  "artifactUrl": "https://salla.sa",
+  "apiPackage": "Api",
+  "modelPackage": "Model",
+  "composerVendorName": "sallaapp",
+  "composerProjectName": "salla-sdk",
+  "gitRepoBaseURL": "https://github.com/SallaApp/salla-sdk"
+}
